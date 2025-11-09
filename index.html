@@ -4,10 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Mythic TD — Trade Calculator</title>
-
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@600&display=swap" rel="stylesheet">
-
   <style>
     :root {
       --bg:#0b0f14; 
@@ -19,126 +16,47 @@
       --glass: rgba(255,255,255,0.03);
       font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
-
-    * { box-sizing:border-box; }
-
-    body {
-      margin:0;
-      min-height:100vh;
-      background: radial-gradient(circle at top center, #0a1422 0%, #03070d 80%), 
-                  url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=60');
-      background-size: cover;
-      background-attachment: fixed;
-      color:#f0f6ff;
-      font-size:18px;
-      line-height:1.5;
-      overflow-x:hidden;
-    }
-
-    .wrap {
-      max-width:1600px;
-      margin:40px auto;
-      padding:36px;
-      backdrop-filter: blur(10px);
-      background: rgba(15, 23, 32, 0.75);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius:20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.7);
-      transition: 0.3s ease;
-    }
-
-    .wrap:hover {
-      box-shadow: 0 0 40px rgba(96,165,250,0.3);
-    }
-
+    *{box-sizing:border-box;}
+    body{background:url('Dragon.png');background-size:cover;background-position:center;}
+    .wrap{max-width:1600px;margin:40px auto;padding:36px;backdrop-filter:blur(10px);background:rgba(15,23,32,0.75);border:1px solid rgba(255,255,255,0.05);border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.7);transition:0.3s ease;}
     header{text-align:center;}
-    h1{
-      font-family: 'Orbitron', sans-serif;
-      font-size:32px;
-      margin:0;
-      letter-spacing:1px;
-      color: var(--accent);
-      text-shadow: 0 0 15px rgba(96,165,250,0.6);
-    }
+    h1{font-family:'Orbitron',sans-serif;font-size:32px;margin:0;letter-spacing:1px;color:var(--accent);text-shadow:0 0 15px rgba(96,165,250,0.6);}
     p.lead{margin:6px 0 0;color:var(--muted);font-size:16px}
-
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
-    .panel{
-      position:relative;
-      background:var(--panel);
-      padding:20px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.03);
-      overflow:hidden;
-    }
-
-    .panel.you::before,
-    .panel.them::before {
-      content:"";
-      position:absolute;
-      top:0; left:0;
-      height:100%; width:4px;
-      border-radius:8px;
-    }
-    .panel.you::before { background:linear-gradient(180deg,#60a5fa,#3b82f6); }
-    .panel.them::before { background:linear-gradient(180deg,#ef4444,#b91c1c); }
-
-    .panel.you {
-      background:linear-gradient(180deg, rgba(37,99,235,0.15), rgba(37,99,235,0.05));
-      border:1px solid rgba(96,165,250,0.3);
-      box-shadow:0 0 20px rgba(96,165,250,0.15);
-    }
-
-    .panel.them {
-      background:linear-gradient(180deg, rgba(239,68,68,0.15), rgba(239,68,68,0.05));
-      border:1px solid rgba(239,68,68,0.25);
-      box-shadow:0 0 20px rgba(239,68,68,0.15);
-    }
-
-    table{width:100%;border-collapse:collapse;font-size:16px}
+    .panel{position:relative;background:var(--panel);padding:20px;border-radius:14px;border:1px solid rgba(255,255,255,0.03);overflow:hidden;}
+    .panel.you,.panel.them{border:none;box-shadow:none;}
+    table{width:100%;border-collapse:collapse;font-size:16px; color:inherit;}
     thead th{font-size:14px;text-align:left;padding:10px;color:var(--muted);letter-spacing:0.6px}
     tbody td{padding:12px;border-top:1px dashed rgba(255,255,255,0.02)}
-    input[type="number"], select{
-      background:var(--glass);
+    
+    /* ==== FIXED SELECT AND INPUT STYLES ==== */
+    input[type="number"], select {
+      background: rgba(255,255,255,0.03);
+      color: white; /* text visible */
       border:1px solid rgba(255,255,255,0.05);
-      color:inherit;
       padding:10px 12px;
       border-radius:8px;
       width:100%;
       font-size:16px;
       transition:all 0.2s;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
     }
     input:focus, select:focus {
       outline:none;
       border-color:var(--accent);
       box-shadow:0 0 6px rgba(96,165,250,0.5);
-    }
-
-    .unitqty { width: 70px !important; text-align: center; }
-    .unitvalue { width: 100px !important; text-align: center; }
-
-    .row-actions{display:flex;gap:10px}
-    button{
-      background:transparent;
-      color:var(--accent);
-      border:1px solid rgba(96,165,250,0.2);
-      padding:10px 16px;
-      border-radius:10px;
-      cursor:pointer;
-      font-size:16px;
-      transition:all .2s;
-    }
-    button:hover{
-      background:rgba(96,165,250,0.15);
-      transform:translateY(-2px);
-    }
-    .btn-primary{
-      background:linear-gradient(90deg,#2563eb,#60a5fa);
+      background: rgba(15,23,32,0.8);
       color:white;
-      border:none;
-      font-weight:600;
-      box-shadow:0 0 10px rgba(96,165,250,0.3);
     }
+    
+    .unitqty{width:70px !important;text-align:center;}
+    .unitvalue{width:100px !important;text-align:center;}
+    .row-actions{display:flex;gap:10px}
+    button{background:transparent;color:var(--accent);border:1px solid rgba(96,165,250,0.2);padding:10px 16px;border-radius:10px;cursor:pointer;font-size:16px;transition:all .2s;}
+    button:hover{background:rgba(96,165,250,0.15);transform:translateY(-2px);}
+    .btn-primary{background:linear-gradient(90deg,#2563eb,#60a5fa);color:white;border:none;font-weight:600;box-shadow:0 0 10px rgba(96,165,250,0.3);}
     .btn-primary:hover{opacity:0.9; transform:translateY(-2px);}
     .muted{color:var(--muted);font-size:16px}
     .totals{display:flex;flex-direction:column;gap:10px}
@@ -150,240 +68,200 @@
     .neutral{background:rgba(96,165,250,0.05);border:1px solid rgba(96,165,250,0.06);color:var(--accent);}
     .controls{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:10px}
     .small{font-size:15px;padding:8px 10px}
-    .win{color:var(--good);text-shadow:0 0 10px rgba(34,197,94,0.7);animation:pulse 0.8s ease-in-out;}
-    .lose{color:var(--bad);text-shadow:0 0 10px rgba(239,68,68,0.7);animation:pulse 0.8s ease-in-out;}
-    @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.2);opacity:0.7}}
     footer{margin-top:20px;color:var(--muted);font-size:15px;text-align:center}
     @media(max-width:860px){.grid{grid-template-columns:1fr}}
-
-    .calc-center {display:flex;justify-content:center;margin-top:20px;}
-
-    select.unitname, select.unitname option,
-    select.mutation, select.upgrade {
-      color: #e6eef6;
-      background-color: #0b0f14;
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 8px;
-      padding: 10px 12px;
-      width: 100%;
-      font-size: 16px;
-      transition: all 0.2s;
-    }
-
-    select.mutation:focus, select.upgrade:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 6px rgba(96,165,250,0.5);
-      outline: none;
-    }
   </style>
 </head>
-<body>
-  <div class="wrap">
-    <header>
-      <h1>Mythic TD — Trade Calculator</h1>      
-    </header>
-
-    <div class="grid">
-      <div>
-        <div class="panel you">
-          <h3 style="font-size:20px;margin-top:0;">🛡️ Your Offer</h3>
-          <table id="tblYou">
-            <thead><tr><th>Unit</th><th>Mutation</th><th>Upgrade</th><th>Value</th><th>Qty</th><th></th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <div class="controls"><button id="addYou">+ Add Your Unit</button></div>
-      </div>
-
-      <div>
-        <div class="panel them">
-          <h3 style="font-size:20px;margin-top:0;">⚔️ Their Offer</h3>
-          <table id="tblThem">
-            <thead><tr><th>Unit</th><th>Mutation</th><th>Upgrade</th><th>Value</th><th>Qty</th><th></th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <div class="controls"><button id="addThem">+ Add Their Unit</button></div>
-      </div>
+<body style="color:white">
+<div class="wrap">
+<header><h1>Mythic TD — Trade Calculator</h1></header>
+<div class="grid">
+  <div>
+    <div class="panel you">
+      <h3 style="font-size:20px;margin-top:0;">🛡️ Your Offer</h3>
+      <table id="tblYou">
+        <thead><tr><th>Unit</th><th>Mutation</th><th>Upgrade</th><th>Value</th><th>Qty</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
     </div>
-
-    <div class="calc-center"><button class="btn-primary" id="calc">Calculate</button></div>
-
-    <div style="margin-top:24px">
-      <div class="panel" style="min-width:340px">
-        <h3 style="font-size:20px;margin-top:0;">Totals</h3>
-        <div class="totals">
-          <div class="tot"><div class="muted">Your Total</div><div class="big" id="totalYou">0</div></div>
-          <div class="tot"><div class="muted">Their Total</div><div class="big" id="totalThem">0</div></div>
-          <div class="tot"><div class="muted">Result</div><div class="big" id="tradeResult">—</div></div>
-        </div>
-        <div id="resultBox" class="result-msg neutral" style="margin-top:12px;">
-          <div id="resultText">Press "Calculate" to check trade fairness.</div>
-        </div>
-        <div style="margin-top:14px;display:flex;gap:10px;align-items:center">
-          <label class="muted small">Auto-round:</label>
-          <select id="roundMode" class="small">
-            <option value="0">None</option>
-            <option value="1">1</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-          </select>
-          <button id="reset" class="small">Reset</button>
-        </div>
-      </div>
-    </div>
-
-    <footer>Mythic Tower Defense Trade Calculator — By IndieMindiYT.</footer>
+    <div class="controls"><button id="addYou">+ Add Your Unit</button></div>
   </div>
+  <div>
+    <div class="panel them">
+      <h3 style="font-size:20px;margin-top:0;">⚔️ Their Offer</h3>
+      <table id="tblThem">
+        <thead><tr><th>Unit</th><th>Mutation</th><th>Upgrade</th><th>Value</th><th>Qty</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="controls"><button id="addThem">+ Add Their Unit</button></div>
+  </div>
+</div>
+<div class="controls"><button class="btn-primary" id="calc">Calculate</button></div>
+<div style="margin-top:24px; background-color:black; color:white; padding:15px; border-radius:10px;">
+  <div class="panel" style="min-width:340px">
+    <h3 style="font-size:20px;margin-top:0;">Totals</h3>
+    <div class="totals">
+      <div class="tot"><div class="muted">Your Total</div><div class="big" id="totalYou">0</div></div>
+      <div class="tot"><div class="muted">Their Total</div><div class="big" id="totalThem">0</div></div>
+      <div class="tot"><div class="muted">Result</div><div class="big" id="tradeResult">—</div></div>
+    </div>
+    <div id="resultBox" class="result-msg neutral" style="margin-top:12px;">
+      <div id="resultText">Press "Calculate" to check trade fairness.</div>
+    </div>
+    <div style="margin-top:14px;display:flex;gap:10px;align-items:center">
+      <label class="muted small">Auto-round:</label>
+      <select id="roundMode" class="small">
+        <option value="0">None</option>
+        <option value="1">1</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+      </select>
+      <button id="reset" class="small">Reset</button>
+    </div>
+  </div>
+</div>
+<footer>Mythic Tower Defense Trade Calculator — By Aztrol, IndieMindiYT, Polar, Set, Wavvy.</footer>
+</div>
 
-  <script>
-    const unitValues = {
-      "Basilisk":50,"Bat":100,"Centaur":100,"Cerberus":100,"Cyclopse":500,
-      "Dragon":250,"Dragon Turtle":2000,"Fairy":50,"Flame Knight":2000,
-      "Frost Wizard":1700,"Genie":500,"Ghost":1500,"Goblin King":1000,
-      "Golem":2000,"Griffin":25,"Guardian":50,"Harpy":150,"Headless":2500,
-      "Hydra":250,"Ice Dragon":350,"King":350,"Kitsune":1000,"Knight":25,
-      "Kraken":500,"Magma Titan":1200,"Mermaid":50,"Mine":100,"Minotaur":50,
-      "Mountain King":2500,"Pegasus":750,"Pheonix":50,"Plantera":1200,
-      "Princess":2000,"Pumpkin Knight":750,"Queen":1200,"RA":1500,"Reaper":2500,
-      "Rock Dragon":1500,"Satyr":750,"Spider":250,"Spooky Hydra":500,
-      "Thunderbird":100,"Titan":300,"Unicorn":25,"Vampire":2500,"Witch":250,
-      "Wizard":250,"Zeus":2500
-    };
+<script>
+// ==== Unit Values ====
+const unitValues = {
+"Alchemist":130,"Athena":1400,"Basilisk":5,"Bat":30,"Cat Wizard":1800,"Centaur":30,"Cerberus":90,"Cyclopse":650,"Demon Fox":1500,"Dragon":20,"Dragon Egg":1350,"Dragon Turtle":1500,"Dwarf":25,"Fairy":25,"Flame Knight":1300,"Frost Wizard":1200,"Genie":700,"Ghost":130,"Goblin King":700,"Golem":950,"Griffin":5,"Guardian":85,"Harpy":50,"Headless":1620,"Hydra":900,"Ice Dragon":600,"King":1500,"Kitsune":1200,"Knight":5,"Kraken":90,"Limitless Wizard":1310,"Magma Titan":700,"Medusa":60,"Mermaid":30,"Mine":120,"Minotaur":50,"Monk":2500,"Mountain King":1600,"Pegasus":1000,"Pheonix":120,"Plantera":850,"Poison Dragon":300,"Princess":950,"Pumpkin Knight":900,"Queen":850,"RA":700,"Reaper":1040,"Rock Dragon":950,"Samurai":350,"Satyr":600,"Shadow Knight":400,"Slime":40,"Spider":80,"Spirit Deer":450,"Spooky Hydra":850,"Thunderbird":400,"Titan":350,"Unicorn":5,"Vampire":1640,"Witch":400,"Wizard":400,"Zeus":1700,"Gnome":0
+};
 
-    const mutationMult = {
-      "Normal": 1,
-      "Silver": 1.23,
-      "Gold": 1.35,
-      "Rainbow": 1.55
-    };
+// ==== Unit Ranks ====
+const unitRanks = {
+"Alchemist":"S","Athena":"A","Basilisk":"D","Bat":"A","Cat Wizard":"S","Centaur":"D","Cerberus":"D","Cyclopse":"B","Demon Fox":"S","Dragon":"B","Dragon Egg":"A","Dragon Turtle":"S","Dwarf":"C","Fairy":"D","Flame Knight":"S","Frost Wizard":"A","Genie":"A","Ghost":"S","Goblin King":"A","Golem":"B","Griffin":"D","Guardian":"D","Harpy":"C","Headless":"S","Hydra":"B","Ice Dragon":"B","King":"S","Kitsune":"S","Knight":"D","Kraken":"D","Limitless Wizard":"S","Magma Titan":"B","Medusa":"D","Mermaid":"D","Mine":"A","Minotaur":"D","Monk":"S","Mountain King":"S","Pegasus":"C","Pheonix":"C","Plantera":"A","Poison Dragon":"B","Princess":"A","Pumpkin Knight":"A","Queen":"A","RA":"B","Reaper":"A","Rock Dragon":"A","Samurai":"S","Satyr":"A","Shadow Knight":"B","Slime":"D","Spider":"C","Spirit Deer":"E","Spooky Hydra":"B","Thunderbird":"C","Titan":"C","Unicorn":"D","Vampire":"S","Witch":"C","Wizard":"C","Zeus":"S","Gnome":"E"
+};
 
-    const upgradeMult = {
-      0: 1,
-      1: 1.10,
-      2: 1.25,
-      3: 1.45,
-      4: 1.75,
-      5: 2.25
-    };
+// ==== Limited Units ====
+const limitedUnits = {
+"Alchemist":1,"Bat":1,"Cat Wizard":1,"Demon Fox":1,"Dragon Egg":1,"Ghost":1,"Headless":1,"Kitsune":1,"Limitless Wizard":1,"Monk":1,"Pegasus":1,"Pumpkin Knight":1,"Reaper":1,"Rock Dragon":1,"Samurai":1,"Shadow Knight":1,"Spider":1,"Spooky Hydra":1,"Vampire":1,"Witch":1,"Zeus":1
+};
 
-    function el(q){return document.querySelector(q)}
-    function createRow(side){
-      const tr=document.createElement('tr');
-      const options = Object.keys(unitValues).map(u=>`<option value="${u}">${u}</option>`).join('');
-      const mutationOptions = ["Normal","Silver","Gold","Rainbow"].map(m=>`<option value="${m}">${m}</option>`).join('');
-      const upgradeOptions = [0,1,2,3,4,5].map(s=>`<option value="${s}">${s}★</option>`).join('');
-      
-      tr.innerHTML=`
-        <td><select class="unitname"><option value="">Select Unit</option>${options}</select></td>
-        <td><select class="mutation">${mutationOptions}</select></td>
-        <td><select class="upgrade">${upgradeOptions}</select></td>
-        <td><input type="number" class="unitvalue" readonly></td>
-        <td><input type="number" class="unitqty" placeholder="1" min="1" value="1"></td>
-        <td class="row-actions"><button class="del small">Delete</button></td>`;
-      
-      const tbl=side==='you'?el('#tblYou tbody'):el('#tblThem tbody');
-      tbl.appendChild(tr);
+// ==== Multipliers ====
+const mutationMult = { "Normal":1,"Silver":1.23,"Gold":1.35,"Rainbow":1.55 };
+const upgradeMult = { 0:1,1:1.10,2:1.25,3:1.45,4:1.75,5:2.25 };
 
-      tr.querySelectorAll('select, input').forEach(inp=>{
-        inp.addEventListener('change',()=>updateRowValue(tr));
-      });
+// ==== Helper Functions ====
+function el(q){return document.querySelector(q);}
+function getLimitedBonus(unit, mutation){
+  if(!limitedUnits[unit]) return 1;
+  if(mutation==='Normal') return 1;
+  if(mutation==='Silver') return 2;
+  if(mutation==='Gold') return 2;
+  if(mutation==='Rainbow'){
+    const rank = unitRanks[unit]||"E";
+    const rankMult = {"S":20,"A":16,"B":12,"C":8,"D":4,"E":1}[rank]||1;
+    return rankMult*2;
+  }
+  return 1;
+}
 
-      tr.querySelector('.del').addEventListener('click',()=>{tr.remove();updateTotals();});
-      return tr;
+// ==== Row Creation ====
+function createRow(side){
+  const tr=document.createElement('tr');
+  const options = Object.keys(unitValues).map(u=>{
+    const limited = limitedUnits[u] ? ' ⭐' : '';
+    return `<option value="${u}">${u}${limited}</option>`;
+  }).join('');
+  const mutationOptions = ["Normal","Silver","Gold","Rainbow"].map(m=>`<option value="${m}">${m}</option>`).join('');
+  const upgradeOptions = [0,1,2,3,4,5].map(s=>`<option value="${s}">${s}★</option>`).join('');
+  
+  tr.innerHTML = `
+  <td><select class="unitname"><option value="">Select Unit</option>${options}</select></td>
+  <td><select class="mutation">${mutationOptions}</select></td>
+  <td><select class="upgrade">${upgradeOptions}</select></td>
+  <td><input type="number" class="unitvalue" readonly></td>
+  <td><input type="number" class="unitqty" value="1" min="1"></td>
+  <td class="row-actions"><button class="del small">Delete</button></td>
+  `;
+
+  const tbl=side==='you'?el('#tblYou tbody'):el('#tblThem tbody');
+  tbl.appendChild(tr);
+
+  const unitSelect = tr.querySelector('.unitname');
+
+  function updateAll(){
+    updateRowValue(tr);
+  }
+
+  tr.querySelectorAll('select, input').forEach(inp=>inp.addEventListener('change', updateAll));
+  tr.querySelector('.del').addEventListener('click',()=>{tr.remove();updateTotals();});
+  updateAll();
+  return tr;
+}
+
+createRow('you'); createRow('them');
+el('#addYou').addEventListener('click',()=>createRow('you'));
+el('#addThem').addEventListener('click',()=>createRow('them'));
+el('#reset').addEventListener('click',()=>{if(confirm('Reset all rows?')){el('#tblYou tbody').innerHTML='';el('#tblThem tbody').innerHTML='';createRow('you'); createRow('them'); updateTotals(); el('#resultText').textContent='Reset done.';}});
+
+// ==== Update & Calculation ====
+function updateRowValue(tr){
+  const unit = tr.querySelector('.unitname').value.replace(' ⭐','');
+  const mut = tr.querySelector('.mutation').value;
+  const upg = Number(tr.querySelector('.upgrade').value)||0;
+  const qty = Number(tr.querySelector('.unitqty').value)||1;
+  const base = unitValues[unit]||0;
+  
+  let multiplier = 1;
+  if(mut==='Silver') multiplier = 2;
+  else if(mut==='Gold') multiplier = 4;
+  else if(mut==='Rainbow'){
+    const rank = unitRanks[unit]||"E";
+    multiplier = {"S":20,"A":16,"B":12,"C":8,"D":4,"E":1}[rank]||1;
+  }
+  if(limitedUnits[unit] && mut!=='Normal') multiplier *=2;
+
+  const total = base * multiplier * (upgradeMult[upg]||1);
+  tr.querySelector('.unitvalue').value = Math.round(total*qty);
+  updateTotals();
+}
+
+function parseTable(sel){
+  const rows=[...document.querySelectorAll(sel+' tr')]; let total=0;
+  rows.forEach(r=>{
+    const unit=r.querySelector('.unitname')?.value.replace(' ⭐','');
+    const mut=r.querySelector('.mutation')?.value;
+    const upg=r.querySelector('.upgrade')?.value;
+    const qty=Number(r.querySelector('.unitqty')?.value)||0;
+    const base = unitValues[unit]||0;
+    let multiplier = 1;
+    if(mut==='Silver') multiplier = 2;
+    else if(mut==='Gold') multiplier = 4;
+    else if(mut==='Rainbow'){
+      const rank = unitRanks[unit]||"E";
+      multiplier = {"S":20,"A":16,"B":12,"C":8,"D":4,"E":1}[rank]||1;
     }
+    if(limitedUnits[unit] && mut!=='Normal') multiplier *=2;
+    total+= base * multiplier * (upgradeMult[upg]||1) * qty;
+  });
+  return total;
+}
 
-    createRow('you');
-    createRow('them');
+function updateTotals(){
+  const y=parseTable('#tblYou tbody'), t=parseTable('#tblThem tbody');
+  el('#totalYou').textContent=format(y);
+  el('#totalThem').textContent=format(t);
+  const resultEl=el('#tradeResult');
+  if(y>t){resultEl.textContent="LOSE"; resultEl.className="big lose";}
+  else if(t>y){resultEl.textContent="WIN"; resultEl.className="big win";}
+  else{resultEl.textContent="DRAW"; resultEl.className="big";}
+}
 
-    el('#addYou').addEventListener('click',()=>createRow('you'));
-    el('#addThem').addEventListener('click',()=>createRow('them'));
-    el('#reset').addEventListener('click',()=>{
-      if(confirm('Reset all rows?')){
-        el('#tblYou tbody').innerHTML='';
-        el('#tblThem tbody').innerHTML='';
-        createRow('you');createRow('them');
-        updateTotals();
-        el('#resultText').textContent='Reset done.';
-      }
-    });
+function format(n){ const r=Number(el('#roundMode').value); if(r>0)n=Math.round(n/r)*r; return n.toLocaleString(); }
 
-    document.getElementById('calc').addEventListener('click',calculate);
-
-    function updateRowValue(tr){
-      const unit = tr.querySelector('.unitname').value;
-      const mut = tr.querySelector('.mutation').value;
-      const upg = tr.querySelector('.upgrade').value;
-      const qty = Number(tr.querySelector('.unitqty').value)||1;
-
-      const base = unitValues[unit] || 0;
-      const mMult = mutationMult[mut] || 1;
-      const uMult = upgradeMult[upg] || 1;
-      const total = base * mMult * uMult;
-
-      tr.querySelector('.unitvalue').value = Math.round(total);
-      updateTotals();
-    }
-
-    function parseTable(sel){
-      const rows=[...document.querySelectorAll(sel+' tr')];
-      let total=0;
-      rows.forEach(r=>{
-        const unit=r.querySelector('.unitname')?.value;
-        const mut=r.querySelector('.mutation')?.value;
-        const upg=r.querySelector('.upgrade')?.value;
-        const qty=Number(r.querySelector('.unitqty')?.value)||0;
-
-        const base=unitValues[unit]||0;
-        const mMult=mutationMult[mut]||1;
-        const uMult=upgradeMult[upg]||1;
-
-        total+=base*mMult*uMult*qty;
-      });
-      return total;
-    }
-
-    function updateTotals(){
-      const y=parseTable('#tblYou tbody'), t=parseTable('#tblThem tbody');
-      el('#totalYou').textContent=format(y);
-      el('#totalThem').textContent=format(t);
-      const resultEl=el('#tradeResult');
-      if(y>t){resultEl.textContent="LOSE";resultEl.className="big lose";}
-      else if(t>y){resultEl.textContent="WIN";resultEl.className="big win";}
-      else{resultEl.textContent="DRAW";resultEl.className="big";}
-    }
-
-    function format(n){
-      const r=Number(el('#roundMode').value);
-      if(r>0) n=Math.round(n/r)*r;
-      return n.toLocaleString();
-    }
-
-    function calculate(){
-      const y=parseTable('#tblYou tbody'), t=parseTable('#tblThem tbody');
-      let diff = t - y;
-      let msgBox = el('#resultBox');
-      let msgText = el('#resultText');
-
-      if (y===0 && t===0) {
-        msgBox.className='result-msg neutral';
-        msgText.textContent='Please add some units first.';
-        return;
-      }
-
-      if (Math.abs(diff) < y*0.05) {
-        msgBox.className='result-msg neutral';
-        msgText.textContent='⚖️ This trade looks fair!';
-      } else if (diff>0) {
-        msgBox.className='result-msg good';
-        msgText.textContent='✅ You’re getting a good deal! ('+format(diff)+' value gain)';
-      } else {
-        msgBox.className='result-msg bad';
-        msgText.textContent='❌ You’re overpaying by '+format(-diff)+' value.';
-      }
-
-      updateTotals();
-    }
-  </script>
+document.getElementById('calc').addEventListener('click',()=>{
+  const y=parseTable('#tblYou tbody'), t=parseTable('#tblThem tbody');
+  let diff=t-y; const msgBox=el('#resultBox'), msgText=el('#resultText');
+  if(y===0 && t===0){msgBox.className='result-msg neutral'; msgText.textContent='Please add some units first.'; return;}
+  if(Math.abs(diff)<y*0.05){msgBox.className='result-msg neutral'; msgText.textContent='⚖️ This trade looks fair!';}
+  else if(diff>0){msgBox.className='result-msg good'; msgText.textContent='✅ You’re getting a good deal! ('+format(diff)+' value gain)';}
+  else{msgBox.className='result-msg bad'; msgText.textContent='❌ You’re overpaying by '+format(-diff)+' value.';}
+  updateTotals();
+});
+</script>
 </body>
 </html>
