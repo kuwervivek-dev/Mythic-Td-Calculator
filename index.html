@@ -6,13 +6,40 @@
 <title>Mythic TD — Trade Calculator</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@600&display=swap" rel="stylesheet">
 <style>
+/* Full-screen background & remove white edges */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0b0f14; /* fallback */
+  overflow-x: hidden;
+}
+
 :root {
   --bg:#0b0f14; --panel:#0f1720; --muted:#9aa6b2; --accent:#60a5fa; --good:#22c55e; --bad:#ef4444; --glass: rgba(255,255,255,0.03);
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 }
 *{box-sizing:border-box;}
-body{background:url('Dragon.png');background-size:cover;background-position:center;color:white;}
-.wrap{max-width:1600px;margin:40px auto;padding:36px;backdrop-filter:blur(10px);background:rgba(15,23,32,0.75);border:1px solid rgba(255,255,255,0.05);border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.7);transition:0.3s ease;}
+body{
+  background: url('Dragon.png') no-repeat center center fixed;
+  background-size: cover;
+  color:white;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+.wrap{
+  width: 100%;
+  max-width:1600px;
+  margin:0 auto;
+  padding:40px;
+  backdrop-filter:blur(10px);
+  background:rgba(15,23,32,0.75);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:20px;
+  box-shadow:0 10px 40px rgba(0,0,0,0.7);
+  transition:0.3s ease;
+}
 header{text-align:center;}
 h1{font-family:'Orbitron',sans-serif;font-size:32px;margin:0;letter-spacing:1px;color:var(--accent);text-shadow:0 0 15px rgba(96,165,250,0.6);}
 p.lead{margin:6px 0 0;color:var(--muted);font-size:16px}
@@ -22,7 +49,7 @@ p.lead{margin:6px 0 0;color:var(--muted);font-size:16px}
 table{width:100%;border-collapse:collapse;font-size:16px; color:inherit;}
 thead th{font-size:14px;text-align:left;padding:10px;color:var(--muted);letter-spacing:0.6px}
 tbody td{padding:12px;border-top:1px dashed rgba(255,255,255,0.02)}
-input[type="number"], select {
+input[type="number"], input[type="text"], select {
   background: rgba(255,255,255,0.03);
   color: white;
   border:1px solid rgba(255,255,255,0.05);
@@ -55,6 +82,21 @@ button:hover{background:rgba(96,165,250,0.15);transform:translateY(-2px);}
 .small{font-size:15px;padding:8px 10px}
 footer{margin-top:20px;color:var(--muted);font-size:15px;text-align:center}
 @media(max-width:860px){.grid{grid-template-columns:1fr}}
+/* small style tweak to make ADMIN red stand out in the input */
+.unitvalue.admin {
+  color: #ef4444;
+  font-weight: 700;
+  text-align: center;
+<style>
+input, select {
+  min-width: 140px;   /* wider boxes */
+  height: 38px;       /* taller boxes */
+  font-size: 16px;    /* slightly bigger text */
+  text-align: center; /* centers text/numbers */
+}
+</style>
+
+}
 </style>
 </head>
 <body>
@@ -112,7 +154,7 @@ footer{margin-top:20px;color:var(--muted);font-size:15px;text-align:center}
 <script>
 // ==== Unit Data ====
 const unitValues = {
-"Alchemist":130,"Athena":1400,"Basilisk":5,"Bat":30,"Cat Wizard":1800,"Centaur":30,"Cerberus":90,"Cyclopse":650,"Demon Fox":1500,"Dragon":20,"Dragon Egg":1350,"Dragon Turtle":1500,"Dwarf":25,"Fairy":25,"Flame Knight":1300,"Frost Wizard":1200,"Genie":700,"Ghost":130,"Goblin King":700,"Golem":950,"Griffin":5,"Guardian":85,"Harpy":50,"Headless":1620,"Hydra":900,"Ice Dragon":600,"King":1500,"Kitsune":1200,"Knight":5,"Kraken":90,"Limitless Wizard":1310,"Magma Titan":700,"Medusa":60,"Mermaid":30,"Mine":120,"Minotaur":50,"Monk":2500,"Mountain King":1600,"Pegasus":1000,"Pheonix":120,"Plantera":850,"Poison Dragon":300,"Princess":950,"Pumpkin Knight":900,"Queen":850,"RA":700,"Reaper":1040,"Rock Dragon":950,"Samurai":350,"Satyr":600,"Shadow Knight":400,"Slime":40,"Spider":80,"Spirit Deer":450,"Spooky Hydra":850,"Thunderbird":400,"Titan":350,"Unicorn":5,"Vampire":1640,"Witch":400,"Wizard":400,"Zeus":1700,"Gnome":2500
+"Alchemist":130,"Athena":1400,"Basilisk":5,"Bat":30,"Cat Wizard":1800,"Centaur":30,"Cerberus":90,"Cyclopse":650,"Demon Fox":1500,"Dragon":20,"Dragon Egg":1350,"Dragon Turtle":1500,"Dwarf":25,"Fairy":25,"Flame Knight":1300,"Frost Wizard":1200,"Genie":700,"Ghost":130,"Goblin King":700,"Golem":950,"Griffin":5,"Guardian":85,"Harpy":50,"Headless":1620,"Hydra":900,"Ice Dragon":600,"King":1500,"Kitsune":1200,"Knight":5,"Kraken":90,"Limitless Wizard":1310,"Magma Titan":700,"Medusa":60,"Mermaid":30,"Mine":120,"Minotaur":50,"Monk":2500,"Mountain King":1600,"Pegasus":1000,"Pheonix":120,"Plantera":850,"Poison Dragon":300,"Princess":950,"Pumpkin Knight":900,"Queen":850,"RA":700,"Reaper":1040,"Rock Dragon":950,"Samurai":350,"Satyr":600,"Shadow Knight":400,"Slime":40,"Spider":80,"Spirit Deer":450,"Spooky Hydra":850,"Thunderbird":400,"Titan":350,"Unicorn":5,"Vampire":1640,"Witch":400,"Wizard":400,"Zeus":1700,"Gnome":"ADMIN"
 };
 const unitRanks = {"Alchemist":"S","Athena":"A","Basilisk":"D","Bat":"A","Cat Wizard":"S","Centaur":"D","Cerberus":"D","Cyclopse":"B","Demon Fox":"S","Dragon":"B","Dragon Egg":"A","Dragon Turtle":"S","Dwarf":"C","Fairy":"D","Flame Knight":"S","Frost Wizard":"A","Genie":"B","Ghost":"S","Goblin King":"A","Golem":"B","Griffin":"D","Guardian":"D","Harpy":"C","Headless":"S","Hydra":"B","Ice Dragon":"B","King":"S","Kitsune":"S","Knight":"D","Kraken":"A","Limitless Wizard":"S","Magma Titan":"B","Medusa":"E","Mermaid":"D","Mine":"A","Minotaur":"D","Monk":"S","Mountain King":"S","Pegasus":"C","Pheonix":"C","Plantera":"A","Poison Dragon":"B","Princess":"A","Pumpkin Knight":"A","Queen":"A","RA":"B","Reaper":"A","Rock Dragon":"A","Samurai":"S","Satyr":"A","Shadow Knight":"B","Slime":"D","Spider":"C","Spirit Deer":"E","Spooky Hydra":"B","Thunderbird":"C","Titan":"C","Unicorn":"D","Vampire":"S","Witch":"C","Wizard":"D","Zeus":"S","Gnome":"S"};
 const limitedUnits = {"Alchemist":1,"Bat":1,"Cat Wizard":1,"Demon Fox":1,"Dragon Egg":1,"Ghost":1,"Headless":1,"Kitsune":1,"Limitless Wizard":1,"Monk":1,"Pegasus":1,"Pumpkin Knight":1,"Reaper":1,"Rock Dragon":1,"Samurai":1,"Shadow Knight":1,"Spider":1,"Spooky Hydra":1,"Vampire":1,"Witch":1,"Zeus":1};
@@ -138,7 +180,7 @@ function createRow(side){
   <td><select class="unitname"><option value="">Select Unit</option>${options}</select></td>
   <td><select class="mutation">${mutationOptions}</select></td>
   <td><select class="upgrade">${upgradeOptions}</select></td>
-  <td><input type="number" class="unitvalue" readonly></td>
+  <td><input type="text" class="unitvalue" readonly></td>
   <td><input type="number" class="unitqty" value="1" min="1"></td>
   <td class="row-actions"><button class="del small">Delete</button></td>`;
   const tbl=side==='you'?el('#tblYou tbody'):el('#tblThem tbody');
@@ -159,8 +201,9 @@ function createRow(side){
 // ==== Calculate Upgrade Value ====
 function calcUpgrade(unit, upgrade){
   if(!unit) return 1;
+  if(unit==="Gnome") return 0; // 🚫 ensure numeric operations skip Gnome
   const rarity = unitRarity[unit] || "Common";
-  const base = unitValues[unit]||0;
+  const base = Number(unitValues[unit]) || 0;
   const copies = copiesPerStar[rarity]||1;
   const totalCopies = copies * upgrade;
   return base + base*totalCopies; // base + base*copies*upgrade
@@ -172,11 +215,28 @@ function updateRowValue(tr){
   const mut = tr.querySelector('.mutation').value;
   const upg = Number(tr.querySelector('.upgrade').value)||0;
   const qty = Number(tr.querySelector('.unitqty').value)||1;
+  const valBox = tr.querySelector('.unitvalue');
   
+  // Special Gnome handling: show 🚫 ADMIN (red, bold) and stop further numeric update
+  if(unit==="Gnome"){
+    valBox.value="🚫 ADMIN";
+    valBox.classList.add('admin');
+    valBox.style.color = ""; // class handles color, keep inline style minimal
+    updateTotals();
+    return;
+  } else {
+    // remove admin styling if previously set
+    valBox.classList.remove('admin');
+  }
+
   let val = calcUpgrade(unit,upg);
   val *= mutationMult[mut]||1;
   if(limitedUnits[unit] && mut!=='Normal') val*=2;
-  tr.querySelector('.unitvalue').value=Math.round(val*qty);
+  // numeric display
+  valBox.value=Math.round(val*qty);
+  valBox.style.color="white";
+  valBox.style.fontWeight="normal";
+  valBox.style.textAlign="center";
   updateTotals();
 }
 
@@ -184,11 +244,14 @@ function updateRowValue(tr){
 function parseTable(sel){
   const rows=[...document.querySelectorAll(sel+' tr')]; let total=0;
   rows.forEach(r=>{
-    const unit=r.querySelector('.unitname')?.value.replace(' ⭐','');
+    const unitEl = r.querySelector('.unitname');
+    if(!unitEl) return;
+    const unit = unitEl.value.replace(' ⭐','');
+    if(unit==="Gnome") return; // ignore ADMIN rows in totals
     const mut=r.querySelector('.mutation')?.value;
-    const upg=r.querySelector('.upgrade')?.value;
+    const upg=Number(r.querySelector('.upgrade')?.value) || 0;
     const qty=Number(r.querySelector('.unitqty')?.value)||0;
-    const val = calcUpgrade(unit,Number(upg)) * (mutationMult[mut]||1) * (limitedUnits[unit] && mut!=='Normal'?2:1);
+    const val = calcUpgrade(unit,upg) * (mutationMult[mut]||1) * (limitedUnits[unit] && mut!=='Normal'?2:1);
     total+=val*qty;
   });
   return total;
